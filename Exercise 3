@@ -29,5 +29,6 @@ function load_image(image)
     red = name[:,:,1]
     green = name[:,:,2]
     blue = name[:,:, 3]
+    println("Reset with git reset--mixed")
     return red, green, blue
 end
