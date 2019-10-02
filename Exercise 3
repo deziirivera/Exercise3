@@ -17,7 +17,7 @@ as separate variables channels as the .
 
 
 Args:
-   image-- the name of the RBG image
+   image-- the name of the RBG image as a string
 
 Returns:
    the matrices created, which I called red, green, and blue
