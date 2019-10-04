@@ -4,6 +4,7 @@ using PyCall
 Pkg.add("PyPlot")
 Pkg.build("PyPlot")
 using PyPlot
+Pkg.add("Images")
 
 #1a
 elcapitan = imread("el-capitan.png")
@@ -12,7 +13,8 @@ size(elcapitan)
 
 #1b
 """
-load_image -- function should load image and extract red, blue, and green channels
+load_image -- function should load image with the input as a string and
+and extract the red, green, and blue channels
 as separate variables channels as the .
 
 
@@ -23,12 +25,94 @@ Returns:
    the matrices created, which I called red, green, and blue
 """
 function load_image(image)
-    name = imread(image)
+    name = image
     imshow(convert(Array{Float32,3}, name))
 
     red = name[:,:,1]
     green = name[:,:,2]
     blue = name[:,:, 3]
-    println("Reset with git reset--mixed")
+    #println("Reset with git reset--mixed")
     return red, green, blue
 end
+red, green, blue = load_image(elcapitan)
+
+red
+green
+blue
+
+
+#1d
+#the reset is valuable because if you make a mistake, you can go back to before
+#the mistake was made
+
+#1e
+#here I just set image-two matrices equal to the orginal matrices of elcapitan
+
+image2 = zeros(360, 640, 3)
+image2[:,:,1] = elcapitan[:,:,2]
+image2[:,:,2] = elcapitan[:,:,3]
+image2[:,:,3] = elcapitan[:,:,1]
+
+
+#showing the plots of the two images side by side
+
+subplot(1,2,1)
+imshow(elcapitan)
+title("Original Colors")
+axis("off")
+subplot(1,2,2)
+imshow(image2)
+title("Color Changing with Matrix")
+axis("off")
+
+
+#1B
+"this function takes an input, in this case the image name, and the number of
+pixels you enter to shift the inside elements as many places as you tell it to.
+it will move the bottom pixels of the image entered to the top of a new image I
+created out of zeros,
+and the top of the pixels of the image enter to the bottom of a new matrix
+
+the function will return the pixels of the newly created image after the pixels
+have been moved
+
+****had to take out imshow() in function in order to create subplot for second 
+part of these question****
+
+
+"
+
+
+ clf()
+
+function rotate_picture(image, pixels)
+    clf()
+    red1, green1, blue1 = load_image(image);
+        new_m = zeros(360, 640, 3)
+        red2 = copy(red1)
+        red3 = copy(red1)
+            red2[1:(360-pixels),:] = red3[(pixels+1):360,:]
+            red2[(360-pixels+1):360,:] = red1[1:pixels,:]
+
+                new_m[:, :, 1] = red2
+                new_m[:,:,2] = green1
+                new_m[:,:,3] = blue1
+
+    return new_m
+end
+
+imshow(rotate_picture(elcapitan, 180))
+rotatedpicture = rotate_picture(elcapitan, 180)
+
+
+
+#showing the plots of the two images side by side
+figure()
+subplot(1,2,1)
+imshow(elcapitan)
+title("Original Colors")
+axis("off")
+subplot(1,2,2)
+imshow(rotatedpicture)
+title("Circular Rotation with Matrix")
+axis("off")
